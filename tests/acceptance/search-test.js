@@ -13,7 +13,6 @@ test('should show search as the home page', function (assert) {
 test('should display the search bar', function (assert) {
   visit('/search');
   andThen(() => {
-    alert(find('.search .query').length);
     assert.equal(find('.search .query').length, 1)
     assert.equal(find('.search .btn').length, 1)
   });

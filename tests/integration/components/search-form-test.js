@@ -5,20 +5,39 @@ moduleForComponent('search-form', 'Integration | Component | search form', {
   integration: true
 });
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+test('it renders with the query value', function(assert) {
+  this.set('queryValue', 'some text');
 
-  this.render(hbs`{{search-form}}`);
-
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
   this.render(hbs`
-    {{#search-form}}
-      template block text
-    {{/search-form}}
+    {{search-form query=queryValue}}
   `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$(".query").val().trim(), 'some text');
+
+  this.set('queryValue', 'some other text');
+
+  assert.equal(this.$(".query").val().trim(), 'some other text');
+});
+
+test('when the query field value changes, the attribute should change too', function(assert) {
+  this.render(hbs`
+    {{search-form query=queryValue}}
+  `);
+
+  this.$(".query").val('some other text').change();
+
+  assert.equal(this.$(".query").val().trim(), 'some other text');
+});
+
+test('if the onSearch action is triggered when the button is pressed', function(assert) {
+  this.set('externalAction', (query) => {
+    assert.equal(query, "some query");
+  });
+
+  this.render(hbs`
+    {{search-form onSearch=externalAction}}
+  `);
+
+  this.$(".query").val('some query').change();
+  this.$(".btn").click();
 });
