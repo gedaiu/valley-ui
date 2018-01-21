@@ -1,4 +1,9 @@
 <div class="container">
     <h1 class="text-center">Valley</h1>
-    {{search-form}}
+    {{search-form onSearch=(action "onSearch") query=currentQuery}}
+
+    {{#each model as |searchResult|}}
+        {{search-result data=searchResult}}
+    {{/each}}
 </div>
+
