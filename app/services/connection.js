@@ -1,33 +1,36 @@
 import Service from '@ember/service';
 
+var connection;
+
 export default Service.extend({
-    connection: null,
     queue: [],
 
     init() {
-        var ws = new WebSocket("ws://localhost:8080/ws");
+        if(!connection) {
+            var ws = new WebSocket("ws://localhost:8080/ws");
 
-        ws.onmessage = (event) => {
-            var data = JSON.parse(event.data);
-            this.gotData(data);
+            ws.onmessage = (event) => {
+                var data = JSON.parse(event.data);
+                this.gotData(data);
+            }
+
+            ws.onopen = () => {
+                this.get("queue").forEach(element => {
+                    ws.send(element);
+                });
+            }
+
+            connection = ws;
         }
-
-        ws.onopen = () => {
-            this.get("queue").forEach(element => {
-                ws.send(element);
-            });
-        }
-
-        this.set("connection", ws);
     },
 
     send(message) {
-        if(this.get("connection").readyState != "OPEN") {
+        if(connection.readyState != "OPEN") {
             this.get("queue").push(message);
             return;
         }
 
-        this.get("connection").send(message);
+        connection.send(message);
     },
 
     gotData(data) {

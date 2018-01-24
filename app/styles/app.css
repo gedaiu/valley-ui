@@ -1,0 +1,29 @@
+.search-result {
+    margin-bottom: 2rem;
+    max-width: 650px;
+    color: #666;
+}
+
+.search-result h2 {
+    font-size: 18px;
+}
+
+.search-result h2 a {
+    color: #9EAB0D;
+}
+
+.search-result .location {
+    color: #377276;
+}
+
+.search-result h2 a:visited {
+    color: #4F5506;
+}
+
+.search-result p {
+    font-size: 13px;
+}
+
+.search-result p, .search-result h2 {
+    margin-bottom: 0;
+}
