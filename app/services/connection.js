@@ -3,9 +3,11 @@ import Service from '@ember/service';
 var connection;
 
 export default Service.extend({
-    queue: [],
+    queue: null,
 
     init() {
+        this.set("queue", []);
+
         if(!connection) {
             var ws = new WebSocket("ws://localhost:8080/ws");
 
@@ -25,7 +27,7 @@ export default Service.extend({
     },
 
     send(message) {
-        if(connection.readyState != "OPEN") {
+        if(connection.readyState != 1) {
             this.get("queue").push(message);
             return;
         }
@@ -41,7 +43,7 @@ export default Service.extend({
         this.send("query:" + query);
     },
 
-    findAll(store, type, sinceToken) {
+    findAll(store) {
         this.send("get all:searchResults");
 
         return new Ember.RSVP.Promise((resolve, reject) => {

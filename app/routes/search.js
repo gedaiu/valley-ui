@@ -9,6 +9,8 @@ export default Route.extend({
 
     model(params) {
         this.get("connection").setQuery(params.query);
-        return this.get('store').findAll("searchResult");
+        this.get("store").unloadAll("searchResult");
+
+        return this.get("store").findAll("searchResult");
     }
 });
