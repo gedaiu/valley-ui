@@ -27,7 +27,7 @@ export default Service.extend({
     },
 
     send(message) {
-        if(connection.readyState != 1) {
+        if(connection.readyState !== WebSocket.OPEN) {
             this.get("queue").push(message);
             return;
         }
