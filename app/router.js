@@ -1,3 +1,4 @@
+
 import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
 
@@ -11,3 +12,4 @@ Router.map(function() {
 });
 
 export default Router;
+
